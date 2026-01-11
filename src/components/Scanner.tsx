@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode'
 import '../styles/components.css'
 
@@ -13,7 +13,7 @@ export default function Scanner({ onScan, onError }: ScannerProps) {
     const [isStarting, setIsStarting] = useState(false)
     const [hasStarted, setHasStarted] = useState(false)
 
-    const startScanner = async () => {
+    const startScanner = useCallback(async () => {
         if (!html5QrCodeRef.current) {
             html5QrCodeRef.current = new Html5Qrcode("reader", {
                 verbose: false,
@@ -24,7 +24,6 @@ export default function Scanner({ onScan, onError }: ScannerProps) {
             })
         }
 
-        // ... rest of the code is fine ...
         if (html5QrCodeRef.current.isScanning) {
             setHasStarted(true)
             setScanError(null)
@@ -35,7 +34,6 @@ export default function Scanner({ onScan, onError }: ScannerProps) {
         setScanError(null)
 
         try {
-            // First attempt: environment camera
             try {
                 await html5QrCodeRef.current.start(
                     { facingMode: "environment" },
@@ -50,7 +48,6 @@ export default function Scanner({ onScan, onError }: ScannerProps) {
                 )
             } catch (envErr) {
                 console.warn("Environment camera failed, falling back to default camera", envErr)
-                // Fallback attempt: any available camera
                 await html5QrCodeRef.current.start(
                     {}, // Default camera
                     {
@@ -67,7 +64,6 @@ export default function Scanner({ onScan, onError }: ScannerProps) {
             setScanError(null)
         } catch (err: any) {
             const errMsg = err?.toString() || ""
-            // Ignore "already scanning" errors - happens in React StrictMode
             if (errMsg.includes("already scanning") || errMsg.includes("is scanning")) {
                 setHasStarted(true)
                 setScanError(null)
@@ -79,9 +75,9 @@ export default function Scanner({ onScan, onError }: ScannerProps) {
         } finally {
             setIsStarting(false)
         }
-    }
+    }, [onScan, onError])
 
-    const stopScanner = async () => {
+    const stopScanner = useCallback(async () => {
         if (html5QrCodeRef.current && html5QrCodeRef.current.isScanning) {
             try {
                 await html5QrCodeRef.current.stop()
@@ -90,15 +86,14 @@ export default function Scanner({ onScan, onError }: ScannerProps) {
                 console.error("Error stopping scanner", err)
             }
         }
-    }
+    }, [])
 
     useEffect(() => {
-        // Attempt auto-start on mount
         startScanner()
         return () => {
             stopScanner()
         }
-    }, [])
+    }, [startScanner, stopScanner])
 
     return (
         <div className="scanner-container" style={{
