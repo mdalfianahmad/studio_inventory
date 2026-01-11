@@ -1,0 +1,82 @@
+:root {
+  /* Brand Colors - HSL for easy adjustments */
+  --hue-brand: 220; /* Deep Blue */
+  --color-brand: hsl(var(--hue-brand), 80%, 50%);
+  --color-brand-hover: hsl(var(--hue-brand), 80%, 45%);
+  
+  /* Neutral Colors */
+  --hue-neutral: 240;
+  --color-bg-base: hsl(var(--hue-neutral), 10%, 98%);
+  --color-bg-surface: hsl(0, 0%, 100%);
+  --color-bg-surface-hover: hsl(var(--hue-neutral), 10%, 96%);
+  
+  --color-text-primary: hsl(var(--hue-neutral), 20%, 10%);
+  --color-text-secondary: hsl(var(--hue-neutral), 15%, 40%);
+  --color-text-tertiary: hsl(var(--hue-neutral), 10%, 60%);
+
+  --color-border: hsl(var(--hue-neutral), 10%, 90%);
+  --color-border-hover: hsl(var(--hue-neutral), 10%, 80%);
+
+  /* UI Status */
+  --color-success: hsl(142, 76%, 36%);
+  --color-error: hsl(0, 84%, 60%);
+  --color-warning: hsl(38, 92%, 50%);
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+
+  /* Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-full: 9999px;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  
+  /* Touch target size for mobile */
+  --touch-target: 44px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-base: hsl(var(--hue-neutral), 10%, 8%);
+    --color-bg-surface: hsl(var(--hue-neutral), 10%, 12%);
+    --color-bg-surface-hover: hsl(var(--hue-neutral), 10%, 16%);
+
+    --color-text-primary: hsl(var(--hue-neutral), 10%, 98%);
+    --color-text-secondary: hsl(var(--hue-neutral), 10%, 70%);
+    --color-text-tertiary: hsl(var(--hue-neutral), 10%, 50%);
+
+    --color-border: hsl(var(--hue-neutral), 10%, 20%);
+    --color-border-hover: hsl(var(--hue-neutral), 10%, 30%);
+    
+    --color-brand: hsl(var(--hue-brand), 70%, 60%);
+    --color-brand-hover: hsl(var(--hue-brand), 70%, 65%);
+  }
+}

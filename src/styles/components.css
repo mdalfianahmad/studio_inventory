@@ -1,0 +1,179 @@
+/* Login Page */
+.login-container {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+    background: radial-gradient(circle at top right, var(--color-bg-surface-hover), var(--color-bg-base));
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    background: var(--color-bg-surface);
+    padding: var(--space-12) var(--space-6) var(--space-8);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+}
+
+.login-title {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+    color: var(--color-text-primary);
+    letter-spacing: -0.025em;
+}
+
+.login-subtitle {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-8);
+}
+
+.login-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.login-btn {
+    width: 100%;
+    justify-content: flex-start;
+    padding-left: var(--space-6);
+    position: relative;
+}
+
+.login-btn .icon {
+    width: 20px;
+    height: 20px;
+    background: var(--color-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    margin-right: var(--space-2);
+}
+
+/* Layout */
+.app-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.app-main {
+    flex: 1;
+    padding: var(--space-4);
+    padding-bottom: calc(90px + env(safe-area-inset-bottom));
+    /* Space for bottom nav + extra buffer */
+}
+
+/* Bottom Nav */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--color-bg-surface);
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-2) var(--space-4);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 0 -1px 3px rgb(0 0 0 / 0.05);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: var(--space-2);
+    color: var(--color-text-tertiary);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.nav-item.active {
+    color: var(--color-brand);
+}
+
+.nav-icon {
+    width: 24px;
+    height: 24px;
+    /* Icon customization will go here */
+}
+
+/* Dashboard */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+}
+
+.stat-card {
+    padding: var(--space-4);
+    text-align: center;
+}
+
+.stat-value {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--color-brand);
+    margin-bottom: var(--space-1);
+}
+
+.stat-label {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--color-border);
+    border-top-color: var(--color-brand);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Global Print Styles */
+@media print {
+
+    .bottom-nav,
+    .no-print,
+    header button,
+    .btn,
+    .search-icon,
+    input {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    .container {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .app-main {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+}
