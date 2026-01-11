@@ -46,7 +46,18 @@ function AppRoutes() {
     <Routes>
       {/* Public landing/login page */}
       <Route path="/login" element={
-        loading ? null : session ? <Navigate to="/" replace /> : <LandingPage />
+        loading ? (
+          <div style={{
+            display: 'flex',
+            height: '100vh',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+            color: 'white'
+          }}>
+            <div className="loading-spinner"></div>
+          </div>
+        ) : session ? <Navigate to="/" replace /> : <LandingPage />
       } />
 
       {/* OAuth callback */}
