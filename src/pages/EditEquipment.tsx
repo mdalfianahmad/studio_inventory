@@ -8,7 +8,7 @@ export default function EditEquipment() {
     const { id } = useParams<{ id: string }>()
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
-    const [saving, setSaving] = useState(false)
+    const [isSavingInProgress, setIsSavingInProgress] = useState(false)
 
     const [formData, setFormData] = useState({
         name: '',
@@ -17,38 +17,39 @@ export default function EditEquipment() {
     })
 
     useEffect(() => {
-        if (id) fetchEquipment(id)
-    }, [id])
+        if (id) {
+            const fetchEquipment = async (equipmentId: string) => {
+                try {
+                    const { data, error } = await supabase
+                        .from('equipment')
+                        .select('*')
+                        .eq('id', equipmentId)
+                        .single()
 
-    async function fetchEquipment(equipmentId: string) {
-        try {
-            const { data, error } = await supabase
-                .from('equipment')
-                .select('*')
-                .eq('id', equipmentId)
-                .single()
-
-            if (error) throw error
-            if (data) {
-                setFormData({
-                    name: data.name,
-                    category: data.category,
-                    sku: data.sku || ''
-                })
+                    if (error) throw error
+                    if (data) {
+                        setFormData({
+                            name: data.name,
+                            category: data.category,
+                            sku: data.sku || ''
+                        })
+                    }
+                } catch (error) {
+                    console.error('Error fetching equipment:', error)
+                    alert('Failed to load equipment data')
+                    navigate('/equipment')
+                } finally {
+                    setLoading(false)
+                }
             }
-        } catch (error) {
-            console.error('Error fetching equipment:', error)
-            alert('Failed to load equipment data')
-            navigate('/equipment')
-        } finally {
-            setLoading(false)
+            fetchEquipment(id)
         }
-    }
+    }, [id, navigate])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         if (!id) return
-        setSaving(true)
+        setIsSavingInProgress(true)
 
         try {
             const { error } = await supabase
@@ -67,7 +68,7 @@ export default function EditEquipment() {
             console.error('Error updating equipment:', error)
             alert(`Failed to update: ${error.message}`)
         } finally {
-            setSaving(false)
+            setIsSavingInProgress(false)
         }
     }
 
@@ -129,9 +130,9 @@ export default function EditEquipment() {
                         </p>
                     </div>
 
-                    <button type="submit" className="btn" disabled={saving} style={{ marginTop: 'var(--space-2)' }}>
+                    <button type="submit" className="btn" disabled={isSavingInProgress} style={{ marginTop: 'var(--space-2)' }}>
                         <Save size={18} />
-                        {saving ? 'Saving Changes...' : 'Save Changes'}
+                        {isSavingInProgress ? 'Saving Changes...' : 'Save Changes'}
                     </button>
                 </form>
             </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Clock, Filter, ChevronDown } from 'lucide-react'
 import { supabase } from '../lib/supabase'
@@ -30,14 +30,7 @@ export default function ActivityLog() {
 
     const studioId = localStorage.getItem('active_studio_id')
 
-    useEffect(() => {
-        if (studioId && user) {
-            checkOwnership()
-            loadActivity()
-        }
-    }, [studioId, user])
-
-    async function checkOwnership() {
+    const checkOwnership = useCallback(async () => {
         if (!studioId || !user) return
 
         const { data: studio } = await supabase
@@ -47,9 +40,9 @@ export default function ActivityLog() {
             .single()
 
         setIsOwner(studio?.owner_id === user.id)
-    }
+    }, [studioId, user])
 
-    async function loadActivity() {
+    const loadActivity = useCallback(async () => {
         if (!studioId || !user) return
         setLoading(true)
 
@@ -78,20 +71,21 @@ export default function ActivityLog() {
             const { data, error } = await query
 
             if (error) throw error
-            setTransactions(data as any || [])
+            setTransactions((data as unknown as Transaction[]) || [])
         } catch (error) {
             console.error('Error loading activity:', error)
         } finally {
             setLoading(false)
         }
-    }
+    }, [studioId, user, isOwner, filter])
 
-    // Reload when filter or ownership changes
     useEffect(() => {
         if (studioId && user) {
+            checkOwnership()
             loadActivity()
         }
-    }, [filter, isOwner])
+    }, [studioId, user, checkOwnership, loadActivity])
+
 
     if (loading) {
         return (

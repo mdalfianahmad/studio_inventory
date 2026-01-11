@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
@@ -41,13 +41,7 @@ export default function Dashboard() {
     const [recentActivity, setRecentActivity] = useState<any[]>([])
     const [myCheckouts, setMyCheckouts] = useState<Transaction[]>([])
 
-    useEffect(() => {
-        if (user) {
-            loadDashboardData()
-        }
-    }, [user])
-
-    async function loadDashboardData() {
+    const loadDashboardData = useCallback(async () => {
         if (!user) return
         setLoading(true)
 
@@ -99,8 +93,8 @@ export default function Dashboard() {
                     equipment (name)
                 `)
                 .eq('user_id', user.id)
+                .eq('type', 'checkout')
                 .order('created_at', { ascending: false })
-                .limit(10)
 
             setMyCheckouts(checkouts as any || [])
 
@@ -130,7 +124,13 @@ export default function Dashboard() {
         } finally {
             setLoading(false)
         }
-    }
+    }, [user, navigate, pendingInvitations.length])
+
+    useEffect(() => {
+        if (user) {
+            loadDashboardData()
+        }
+    }, [user, loadDashboardData])
 
     const handleAcceptInvitation = async (invitation: Invitation) => {
         if (!user) return
