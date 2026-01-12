@@ -105,7 +105,7 @@ export default function EquipmentList() {
             </header>
 
             {/* Search */}
-            <div style={{ position: 'relative', marginBottom: 'var(--space-5)' }}>
+            <div style={{ position: 'relative', marginBottom: 'var(--space-8)' }}>
                 <Search
                     size={18}
                     style={{

@@ -30,6 +30,37 @@ export default function Layout() {
 
     return (
         <div className="app-layout">
+            <header style={{
+                padding: 'var(--space-6) var(--space-4) 0',
+                display: 'flex',
+                justifyContent: 'center',
+                background: 'transparent'
+            }}>
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--space-2)',
+                    fontSize: '18px',
+                    fontWeight: 800,
+                    letterSpacing: '-0.02em',
+                    color: 'var(--color-text-primary)'
+                }}>
+                    <div style={{
+                        width: '32px',
+                        height: '32px',
+                        background: 'var(--color-brand)',
+                        borderRadius: 'var(--radius-md)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'var(--color-brand-contrast)'
+                    }}>
+                        <Box size={20} strokeWidth={2.5} />
+                    </div>
+                    <span>STUDIO<span style={{ color: 'var(--color-text-tertiary)' }}>INVENTORY</span></span>
+                </div>
+            </header>
+
             <main className="app-main container">
                 <Outlet />
             </main>

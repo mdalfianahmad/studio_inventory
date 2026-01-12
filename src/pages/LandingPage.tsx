@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
-import { QrCode, Users, Camera, ClipboardCheck, ArrowRight, Smartphone } from 'lucide-react'
+import { QrCode, Users, Camera, ClipboardCheck, ArrowRight, Smartphone, Box } from 'lucide-react'
 import '../styles/components.css'
 
 export default function LandingPage() {
@@ -104,14 +104,41 @@ export default function LandingPage() {
                         Mobile-First Equipment Tracking
                     </div>
 
-                    <h1 style={{
-                        fontSize: 'clamp(2rem, 8vw, 3.5rem)',
-                        fontWeight: 900,
-                        lineHeight: 1.1,
-                        marginBottom: 'var(--space-4)',
-                        color: 'var(--color-text-primary)'
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 'var(--space-2)',
+                        fontSize: '18px',
+                        fontWeight: 800,
+                        letterSpacing: '-0.02em',
+                        color: 'var(--color-text-primary)',
+                        marginBottom: 'var(--space-8)'
                     }}>
-                        Studio Inventory
+                        <div style={{
+                            width: '32px',
+                            height: '32px',
+                            background: 'var(--color-brand)',
+                            borderRadius: 'var(--radius-md)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'var(--color-brand-contrast)'
+                        }}>
+                            <Box size={20} strokeWidth={2.5} />
+                        </div>
+                        <span>STUDIO<span style={{ color: 'var(--color-text-tertiary)' }}>INVENTORY</span></span>
+                    </div>
+
+                    <h1 style={{
+                        fontSize: 'clamp(2.5rem, 10vw, 4rem)', /* Slightly larger now with logo */
+                        fontWeight: 900,
+                        lineHeight: 1,
+                        marginBottom: 'var(--space-4)',
+                        color: 'var(--color-text-primary)',
+                        letterSpacing: '-0.04em'
+                    }}>
+                        Organize your gear <br /> with ease.
                     </h1>
 
                     <p style={{
