@@ -161,10 +161,17 @@
 .equipment-item {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-3);
+    gap: var(--space-4);
+    /* Increased gap */
+    padding: var(--space-4);
+    /* Increased padding */
     text-decoration: none;
     color: inherit;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.equipment-item:active {
+    transform: scale(0.98);
 }
 
 .equipment-thumb {
@@ -201,11 +208,12 @@
 }
 
 .equipment-category {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--color-text-tertiary);
     text-transform: uppercase;
-    letter-spacing: 0.03em;
-    font-weight: 500;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    margin-top: 2px;
 }
 
 .equipment-count {
@@ -214,8 +222,9 @@
 }
 
 .equipment-available {
-    font-size: var(--text-sm);
-    font-weight: 700;
+    font-size: var(--text-base);
+    font-weight: 800;
+    line-height: 1;
 }
 
 .equipment-available.in-stock {
@@ -231,8 +240,11 @@
 }
 
 .equipment-total {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--color-text-tertiary);
+    font-weight: 600;
+    text-transform: lowercase;
+    margin-top: 2px;
 }
 
 /* Section Header */

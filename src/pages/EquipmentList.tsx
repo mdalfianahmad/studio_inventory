@@ -73,32 +73,32 @@ export default function EquipmentList() {
             <header style={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                marginBottom: 'var(--space-5)'
+                alignItems: 'center', /* Changed from flex-start for better alignment */
+                marginBottom: 'var(--space-6)'
             }}>
                 <div>
-                    <h1 style={{ marginBottom: '2px' }}>Equipment</h1>
-                    <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-sm)' }}>
+                    <h1 style={{ marginBottom: '0px', fontSize: 'var(--text-2xl)' }}>Equipment</h1>
+                    <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-xs)', fontWeight: 500 }}>
                         {items.length} item{items.length !== 1 ? 's' : ''} in inventory
                     </p>
                 </div>
                 {isOwner && (
-                    <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+                    <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
                         <Link
                             to="/equipment/print-all"
                             className="btn btn-secondary"
-                            style={{ padding: 'var(--space-2) var(--space-3)' }}
+                            style={{ padding: '0 var(--space-4)', height: '42px' }}
                         >
                             <Printer size={18} />
-                            <span style={{ marginLeft: '4px' }}>Labels</span>
+                            <span>Labels</span>
                         </Link>
                         <Link
                             to="/equipment/add"
                             className="btn"
-                            style={{ padding: 'var(--space-2) var(--space-3)' }}
+                            style={{ padding: '0 var(--space-4)', height: '42px' }}
                         >
                             <Plus size={18} />
-                            <span style={{ marginLeft: '4px' }}>Add</span>
+                            <span>Add</span>
                         </Link>
                     </div>
                 )}
