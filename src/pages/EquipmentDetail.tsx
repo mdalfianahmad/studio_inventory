@@ -204,7 +204,7 @@ export default function EquipmentDetail() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: 'var(--space-5)'
+                marginBottom: 'var(--space-8)'
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
                     <button
@@ -238,7 +238,7 @@ export default function EquipmentDetail() {
             </header>
 
             {/* Equipment Photo & Info */}
-            <div className="card" style={{ marginBottom: 'var(--space-5)' }}>
+            <div className="card" style={{ marginBottom: 'var(--space-8)' }}>
                 {item.photo_url ? (
                     <img
                         src={item.photo_url}
@@ -309,24 +309,25 @@ export default function EquipmentDetail() {
             {/* OWNER ONLY: Available Units with QR/Barcode */}
             {isOwner && (
                 <section style={{ marginBottom: 'var(--space-8)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-3)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-5)' }}>
                         <div className="section-header" style={{ marginBottom: 0 }}>
                             <CheckCircle2 size={14} />
                             AVAILABLE ({availableUnits.length})
                         </div>
 
-                        <div style={{ display: 'flex', background: 'var(--color-bg-surface)', padding: '2px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)' }}>
+                        <div style={{ display: 'flex', background: 'var(--color-bg-base)', padding: '3px', borderRadius: 'var(--radius-full)', border: '1px solid var(--color-border)' }}>
                             <button
                                 onClick={() => setViewMode('qr')}
                                 style={{
-                                    padding: '5px 10px',
+                                    padding: '6px 16px',
                                     fontSize: '10px',
                                     fontWeight: 700,
-                                    borderRadius: '4px',
+                                    borderRadius: 'var(--radius-full)',
                                     border: 'none',
                                     background: viewMode === 'qr' ? 'var(--color-brand)' : 'transparent',
-                                    color: viewMode === 'qr' ? 'white' : 'var(--color-text-secondary)',
-                                    cursor: 'pointer'
+                                    color: viewMode === 'qr' ? 'var(--color-brand-contrast)' : 'var(--color-text-secondary)',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease'
                                 }}
                             >
                                 QR
@@ -334,14 +335,15 @@ export default function EquipmentDetail() {
                             <button
                                 onClick={() => setViewMode('barcode')}
                                 style={{
-                                    padding: '5px 10px',
+                                    padding: '6px 16px',
                                     fontSize: '10px',
                                     fontWeight: 700,
-                                    borderRadius: '4px',
+                                    borderRadius: 'var(--radius-full)',
                                     border: 'none',
                                     background: viewMode === 'barcode' ? 'var(--color-brand)' : 'transparent',
-                                    color: viewMode === 'barcode' ? 'white' : 'var(--color-text-secondary)',
-                                    cursor: 'pointer'
+                                    color: viewMode === 'barcode' ? 'var(--color-brand-contrast)' : 'var(--color-text-secondary)',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease'
                                 }}
                             >
                                 BAR
