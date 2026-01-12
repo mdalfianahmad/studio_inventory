@@ -107,6 +107,7 @@ export interface Database {
                     code: string
                     code_type: 'qr' | 'barcode'
                     status: 'available' | 'checked_out' | 'maintenance'
+                    photo_url: string | null
                     created_at: string
                 }
                 Insert: {
@@ -116,6 +117,7 @@ export interface Database {
                     code: string
                     code_type: 'qr' | 'barcode'
                     status?: 'available' | 'checked_out' | 'maintenance'
+                    photo_url?: string | null
                     created_at?: string
                 }
                 Update: {
@@ -125,6 +127,7 @@ export interface Database {
                     code?: string
                     code_type?: 'qr' | 'barcode'
                     status?: 'available' | 'checked_out' | 'maintenance'
+                    photo_url?: string | null
                     created_at?: string
                 }
             }

@@ -38,6 +38,7 @@ export default function Layout() {
                 <nav className="bottom-nav">
                     <NavLink
                         to="/"
+                        end
                         className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
                     >
                         <LayoutDashboard size={22} />
@@ -59,9 +60,9 @@ export default function Layout() {
                         <div style={{
                             background: 'var(--color-brand)',
                             color: 'white',
-                            padding: '10px',
+                            padding: '12px',
                             borderRadius: '50%',
-                            marginTop: '-20px',
+                            marginTop: '-16px',
                             boxShadow: 'var(--shadow-md)'
                         }}>
                             <QrCode size={22} />

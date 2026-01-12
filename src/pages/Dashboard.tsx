@@ -184,9 +184,9 @@ export default function Dashboard() {
 
     if (loading) {
         return (
-            <div className="container" style={{ textAlign: 'center', paddingTop: 'var(--space-12)' }}>
+            <div style={{ textAlign: 'center', paddingTop: 'var(--space-12)' }}>
                 <div className="loading-spinner" style={{ margin: '0 auto 16px' }}></div>
-                <p>Loading Dashboard...</p>
+                <p style={{ color: 'var(--color-text-secondary)' }}>Loading...</p>
             </div>
         )
     }
@@ -196,7 +196,7 @@ export default function Dashboard() {
     const isNewUser = !isOwner && memberStudios.length === 0
 
     return (
-        <div className="container" style={{ paddingTop: 'var(--space-4)', paddingBottom: 'var(--space-12)' }}>
+        <div style={{ paddingTop: 'var(--space-4)', paddingBottom: 'var(--space-12)' }}>
             {/* Header */}
             <header style={{
                 display: 'flex',
@@ -205,8 +205,8 @@ export default function Dashboard() {
                 marginBottom: 'var(--space-6)'
             }}>
                 <div>
-                    <h1 style={{ fontSize: 'var(--text-xl)' }}>
-                        {isOwner ? 'Studio Manager' : 'My Dashboard'}
+                    <h1 style={{ marginBottom: '2px' }}>
+                        {isOwner ? 'Studio Manager' : 'Dashboard'}
                     </h1>
                     <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-sm)' }}>
                         {user?.email}
@@ -215,7 +215,7 @@ export default function Dashboard() {
                 <button
                     onClick={signOut}
                     className="btn btn-secondary"
-                    style={{ padding: '8px', borderRadius: '8px' }}
+                    style={{ padding: '10px' }}
                     title="Sign Out"
                 >
                     <LogOut size={18} />
@@ -225,34 +225,22 @@ export default function Dashboard() {
             {/* Pending Invitations */}
             {pendingInvitations.length > 0 && (
                 <section style={{ marginBottom: 'var(--space-6)' }}>
-                    <h3 style={{
-                        fontSize: 'var(--text-sm)',
-                        color: 'var(--color-text-tertiary)',
-                        fontWeight: 700,
-                        letterSpacing: '0.05em',
-                        marginBottom: 'var(--space-3)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px'
-                    }}>
+                    <div className="section-header">
                         <Mail size={14} />
                         PENDING INVITATIONS
-                    </h3>
+                    </div>
                     <div style={{ display: 'grid', gap: 'var(--space-3)' }}>
                         {pendingInvitations.map(inv => (
                             <div
                                 key={inv.id}
                                 className="card"
-                                style={{
-                                    padding: 'var(--space-4)',
-                                    borderLeft: '4px solid var(--color-brand)'
-                                }}
+                                style={{ borderLeft: '3px solid var(--color-info)' }}
                             >
                                 <div style={{ fontWeight: 600, marginBottom: '4px' }}>
                                     {inv.studios?.name || 'Studio'}
                                 </div>
                                 <div style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', marginBottom: 'var(--space-3)' }}>
-                                    You've been invited as {inv.role}
+                                    Invited as {inv.role}
                                 </div>
                                 <button
                                     className="btn"
@@ -289,20 +277,18 @@ export default function Dashboard() {
                     <div className="dashboard-grid">
                         <div className="card stat-card">
                             <div className="stat-value">{ownedStudios.length}</div>
-                            <div className="stat-label">Owned Studios</div>
+                            <div className="stat-label">Studios</div>
                         </div>
                         <div className="card stat-card">
                             <div className="stat-value">{recentActivity.length}</div>
-                            <div className="stat-label">Recent Actions</div>
+                            <div className="stat-label">Recent</div>
                         </div>
                     </div>
 
                     {/* Studio List */}
-                    <div>
-                        <h3 style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-tertiary)', fontWeight: 700, letterSpacing: '0.05em', marginBottom: 'var(--space-3)' }}>
-                            YOUR STUDIOS
-                        </h3>
-                        <div style={{ display: 'grid', gap: 'var(--space-3)' }}>
+                    <section>
+                        <div className="section-header">YOUR STUDIOS</div>
+                        <div style={{ display: 'grid', gap: 'var(--space-2)' }}>
                             {ownedStudios.map(s => (
                                 <div
                                     key={s.id}
@@ -316,60 +302,86 @@ export default function Dashboard() {
                                         alignItems: 'center',
                                         gap: 'var(--space-3)',
                                         padding: 'var(--space-3)',
-                                        cursor: 'pointer',
-                                        transition: 'transform 0.1s ease'
+                                        cursor: 'pointer'
                                     }}
                                 >
-                                    <div style={{ width: '40px', height: '40px', borderRadius: 'var(--radius-md)', background: 'var(--color-brand-light)', color: 'var(--color-brand)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                        <Building2 size={24} />
+                                    <div style={{
+                                        width: '44px',
+                                        height: '44px',
+                                        borderRadius: 'var(--radius-md)',
+                                        background: 'var(--color-brand-light)',
+                                        color: 'var(--color-brand)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}>
+                                        <Building2 size={22} />
                                     </div>
                                     <div style={{ flex: 1 }}>
                                         <div style={{ fontWeight: 600 }}>{s.name}</div>
-                                        <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)' }}>Primary Manager</div>
+                                        <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)' }}>Owner</div>
                                     </div>
-                                    <ChevronRight size={16} color="var(--color-text-tertiary)" />
+                                    <ChevronRight size={18} color="var(--color-text-tertiary)" />
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </section>
 
                     {/* Recent Activity */}
-                    <div className="card">
-                        <h3 style={{ marginBottom: 'var(--space-4)' }}>Latest Transactions</h3>
+                    <section className="card">
+                        <h3 style={{ marginBottom: 'var(--space-4)', fontSize: 'var(--text-md)' }}>Recent Activity</h3>
                         {recentActivity.length > 0 ? (
-                            <div style={{ display: 'grid', gap: 'var(--space-4)' }}>
+                            <div style={{ display: 'grid', gap: 'var(--space-3)' }}>
                                 {recentActivity.map(a => (
                                     <div key={a.id} style={{ display: 'flex', gap: 'var(--space-3)', fontSize: 'var(--text-sm)' }}>
-                                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: a.type === 'checkout' ? '#ef4444' : '#22c55e', marginTop: '6px' }} />
+                                        <div style={{
+                                            width: '8px',
+                                            height: '8px',
+                                            borderRadius: '50%',
+                                            background: a.type === 'checkout' ? 'var(--color-error)' : 'var(--color-success)',
+                                            marginTop: '6px',
+                                            flexShrink: 0
+                                        }} />
                                         <div style={{ flex: 1 }}>
-                                            <div><strong>{a.equipment.name}</strong> was {a.type === 'checkout' ? 'borrowed' : 'returned'}</div>
-                                            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)' }}>{new Date(a.created_at).toLocaleString()}</div>
+                                            <div><strong>{a.equipment.name}</strong> {a.type === 'checkout' ? 'borrowed' : 'returned'}</div>
+                                            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-tertiary)' }}>
+                                                {new Date(a.created_at).toLocaleString()}
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-sm)' }}>No recent activity to show.</p>
+                            <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-sm)' }}>No recent activity.</p>
                         )}
-                    </div>
+                    </section>
                 </div>
             )}
 
             {/* Member View */}
             {isOnlyMember && (
                 <div style={{ display: 'grid', gap: 'var(--space-6)' }}>
-                    <div className="card">
+                    <section className="card">
                         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
                             <Package size={20} color="var(--color-brand)" />
-                            <h3 style={{ fontSize: 'var(--text-md)' }}>My Recent Activity</h3>
+                            <h3 style={{ fontSize: 'var(--text-md)' }}>My Activity</h3>
                         </div>
 
                         {myCheckouts.length > 0 ? (
                             <div style={{ display: 'grid', gap: 'var(--space-3)' }}>
                                 {myCheckouts.slice(0, 5).map(t => (
-                                    <div key={t.id} style={{ display: 'flex', justifyContent: 'space-between', padding: 'var(--space-2)', background: 'var(--color-bg-base)', borderRadius: 'var(--radius-sm)' }}>
-                                        <span style={{ fontWeight: 600 }}>{t.equipment.name}</span>
-                                        <span style={{ fontSize: 'var(--text-xs)', color: t.type === 'checkout' ? '#ef4444' : '#22c55e' }}>
+                                    <div key={t.id} style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        padding: 'var(--space-2) var(--space-3)',
+                                        background: 'var(--color-bg-base)',
+                                        borderRadius: 'var(--radius-sm)'
+                                    }}>
+                                        <span style={{ fontWeight: 600, fontSize: 'var(--text-sm)' }}>{t.equipment.name}</span>
+                                        <span style={{
+                                            fontSize: 'var(--text-xs)',
+                                            color: t.type === 'checkout' ? 'var(--color-error)' : 'var(--color-success)'
+                                        }}>
                                             {t.type === 'checkout' ? 'Borrowed' : 'Returned'}
                                         </span>
                                     </div>
@@ -377,17 +389,15 @@ export default function Dashboard() {
                             </div>
                         ) : (
                             <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-sm)' }}>
-                                No activity yet. Scan some equipment to get started!
+                                No activity yet. Scan equipment to get started!
                             </p>
                         )}
-                    </div>
+                    </section>
 
                     {/* Studios I'm a member of */}
-                    <div>
-                        <h3 style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-tertiary)', fontWeight: 700, letterSpacing: '0.05em', marginBottom: 'var(--space-3)' }}>
-                            MY STUDIOS
-                        </h3>
-                        <div style={{ display: 'grid', gap: 'var(--space-3)' }}>
+                    <section>
+                        <div className="section-header">MY STUDIOS</div>
+                        <div style={{ display: 'grid', gap: 'var(--space-2)' }}>
                             {memberStudios.map((m, i) => (
                                 <div
                                     key={i}
@@ -404,18 +414,27 @@ export default function Dashboard() {
                                         cursor: 'pointer'
                                     }}
                                 >
-                                    <div style={{ width: '40px', height: '40px', borderRadius: 'var(--radius-md)', background: 'var(--color-bg-base)', color: 'var(--color-text-tertiary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                        <Building2 size={24} />
+                                    <div style={{
+                                        width: '44px',
+                                        height: '44px',
+                                        borderRadius: 'var(--radius-md)',
+                                        background: 'var(--color-bg-base)',
+                                        color: 'var(--color-text-tertiary)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}>
+                                        <Building2 size={22} />
                                     </div>
                                     <div style={{ flex: 1 }}>
                                         <div style={{ fontWeight: 600 }}>{m.studios.name}</div>
                                         <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)', textTransform: 'capitalize' }}>{m.role}</div>
                                     </div>
-                                    <ChevronRight size={16} color="var(--color-text-tertiary)" />
+                                    <ChevronRight size={18} color="var(--color-text-tertiary)" />
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </section>
                 </div>
             )}
         </div>
