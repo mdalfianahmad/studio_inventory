@@ -63,8 +63,8 @@ export default function LandingPage() {
     return (
         <div style={{
             minHeight: '100vh',
-            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)',
-            color: 'white',
+            background: 'var(--color-bg-base)',
+            color: 'var(--color-text-base)',
             overflow: 'hidden'
         }}>
             {/* Hero Section */}
@@ -100,14 +100,15 @@ export default function LandingPage() {
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '8px',
-                        background: 'rgba(255,255,255,0.1)',
+                        background: 'var(--color-bg-surface)',
                         padding: '8px 16px',
                         borderRadius: '100px',
                         fontSize: '12px',
                         fontWeight: 600,
                         marginBottom: 'var(--space-6)',
-                        backdropFilter: 'blur(10px)',
-                        border: '1px solid rgba(255,255,255,0.1)'
+                        boxShadow: 'var(--shadow-sm)',
+                        border: '1px solid var(--color-border)',
+                        color: 'var(--color-text-secondary)'
                     }}>
                         <Smartphone size={14} />
                         Mobile-First Equipment Tracking
@@ -118,17 +119,14 @@ export default function LandingPage() {
                         fontWeight: 900,
                         lineHeight: 1.1,
                         marginBottom: 'var(--space-4)',
-                        background: 'linear-gradient(135deg, #fff 0%, #94a3b8 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text'
+                        color: 'var(--color-text-primary)'
                     }}>
                         Studio Inventory
                     </h1>
 
                     <p style={{
                         fontSize: 'var(--text-lg)',
-                        color: 'rgba(255,255,255,0.7)',
+                        color: 'var(--color-text-secondary)',
                         maxWidth: '500px',
                         margin: '0 auto var(--space-8)',
                         lineHeight: 1.6
@@ -180,15 +178,15 @@ export default function LandingPage() {
                                 justifyContent: 'center',
                                 gap: '12px',
                                 padding: '16px 24px',
-                                background: 'rgba(255,255,255,0.1)',
-                                color: 'white',
-                                border: '1px solid rgba(255,255,255,0.2)',
+                                background: 'var(--color-bg-surface)',
+                                color: 'var(--color-text-primary)',
+                                border: '1px solid var(--color-border)',
                                 borderRadius: '12px',
                                 fontSize: '16px',
                                 fontWeight: 600,
                                 cursor: 'pointer',
                                 transition: 'transform 0.2s, background 0.2s',
-                                backdropFilter: 'blur(10px)'
+                                boxShadow: 'var(--shadow-sm)'
                             }}
                         >
                             <svg width="20" height="20" viewBox="0 0 23 23">
@@ -206,7 +204,7 @@ export default function LandingPage() {
             {/* How It Works */}
             <section style={{
                 padding: 'var(--space-12) var(--space-4)',
-                background: 'rgba(0,0,0,0.2)'
+                background: 'var(--color-brand-light)'
             }}>
                 <h2 style={{
                     textAlign: 'center',
@@ -218,7 +216,7 @@ export default function LandingPage() {
                 </h2>
                 <p style={{
                     textAlign: 'center',
-                    color: 'rgba(255,255,255,0.6)',
+                    color: 'var(--color-text-secondary)',
                     marginBottom: 'var(--space-8)'
                 }}>
                     Get started in minutes
@@ -237,17 +235,18 @@ export default function LandingPage() {
                                 display: 'flex',
                                 gap: 'var(--space-4)',
                                 padding: 'var(--space-5)',
-                                background: 'rgba(255,255,255,0.05)',
+                                background: 'var(--color-bg-surface)',
                                 borderRadius: '16px',
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                backdropFilter: 'blur(10px)'
+                                border: '1px solid var(--color-border)',
+                                boxShadow: 'var(--shadow-sm)'
                             }}
                         >
                             <div style={{
                                 width: '56px',
                                 height: '56px',
                                 borderRadius: '12px',
-                                background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                                background: 'var(--color-brand)',
+                                color: 'white',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
@@ -259,7 +258,7 @@ export default function LandingPage() {
                                 <div style={{
                                     fontSize: '11px',
                                     fontWeight: 800,
-                                    color: '#6366f1',
+                                    color: 'var(--color-brand)',
                                     marginBottom: '4px',
                                     textTransform: 'uppercase',
                                     letterSpacing: '0.1em'
@@ -275,7 +274,7 @@ export default function LandingPage() {
                                 </h3>
                                 <p style={{
                                     fontSize: 'var(--text-sm)',
-                                    color: 'rgba(255,255,255,0.6)',
+                                    color: 'var(--color-text-secondary)',
                                     lineHeight: 1.5
                                 }}>
                                     {feature.description}
@@ -292,7 +291,7 @@ export default function LandingPage() {
                 textAlign: 'center'
             }}>
                 <p style={{
-                    color: 'rgba(255,255,255,0.5)',
+                    color: 'var(--color-text-secondary)',
                     fontSize: 'var(--text-sm)',
                     marginBottom: 'var(--space-4)'
                 }}>
@@ -305,14 +304,14 @@ export default function LandingPage() {
                         alignItems: 'center',
                         gap: '8px',
                         padding: '14px 28px',
-                        background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                        background: 'var(--color-brand)',
                         color: 'white',
                         border: 'none',
                         borderRadius: '12px',
                         fontSize: '16px',
                         fontWeight: 600,
                         cursor: 'pointer',
-                        boxShadow: '0 4px 20px rgba(99, 102, 241, 0.4)'
+                        boxShadow: 'var(--shadow-md)'
                     }}
                 >
                     Get Started Free
@@ -324,8 +323,8 @@ export default function LandingPage() {
             <footer style={{
                 padding: 'var(--space-6) var(--space-4)',
                 textAlign: 'center',
-                borderTop: '1px solid rgba(255,255,255,0.1)',
-                color: 'rgba(255,255,255,0.4)',
+                borderTop: '1px solid var(--color-border)',
+                color: 'var(--color-text-tertiary)',
                 fontSize: 'var(--text-xs)'
             }}>
                 © {new Date().getFullYear()} Studio Inventory. Built for creative teams.

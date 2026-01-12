@@ -22,8 +22,8 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
       height: '100vh',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-      color: 'white'
+      background: 'var(--color-bg-base)',
+      color: 'var(--color-text-primary)'
     }}>
       <div style={{ textAlign: 'center' }}>
         <div className="loading-spinner" style={{ margin: '0 auto 16px' }}></div>
@@ -52,8 +52,8 @@ function AppRoutes() {
             height: '100vh',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-            color: 'white'
+            background: 'var(--color-bg-base)',
+            color: 'var(--color-text-primary)'
           }}>
             <div className="loading-spinner"></div>
           </div>
@@ -68,8 +68,8 @@ function AppRoutes() {
             height: '100vh',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-            color: 'white'
+            background: 'var(--color-bg-base)',
+            color: 'var(--color-text-primary)'
           }}>
             <div style={{ textAlign: 'center' }}>
               <div className="loading-spinner" style={{ margin: '0 auto 16px' }}></div>
