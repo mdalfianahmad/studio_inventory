@@ -58,7 +58,8 @@
 .app-main {
     flex: 1;
     padding: var(--space-4);
-    padding-bottom: calc(80px + env(safe-area-inset-bottom));
+    /* Extra padding to ensure everything is clickable above the fixed nav */
+    padding-bottom: calc(120px + env(safe-area-inset-bottom));
 }
 
 /* Bottom Nav */
@@ -69,34 +70,44 @@
     right: 0;
     background: var(--color-bg-surface);
     border-top: 1px solid var(--color-border);
-    padding: var(--space-2) var(--space-4);
-    padding-bottom: calc(var(--space-2) + env(safe-area-inset-bottom));
+    padding: var(--space-1) var(--space-4);
+    padding-bottom: env(safe-area-inset-bottom);
     display: flex;
     justify-content: space-around;
     align-items: center;
-    z-index: 100;
+    z-index: 1000;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .nav-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
+    gap: 4px;
     padding: var(--space-2);
-    color: var(--color-text-tertiary);
-    font-size: 11px;
-    font-weight: 500;
+    color: var(--color-text-secondary);
+    /* Changed from tertiary for better contrast */
+    font-size: 10px;
+    font-weight: 700;
+    /* Bolder for better legibility */
     text-decoration: none;
-    transition: color 0.15s ease;
-    min-width: 56px;
+    transition: all 0.2s ease;
+    min-width: 64px;
+    opacity: 0.6;
 }
 
 .nav-item.active {
     color: var(--color-brand);
+    opacity: 1;
 }
 
 .nav-item:hover {
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
+    opacity: 1;
+}
+
+.nav-item.active span {
+    font-weight: 800;
 }
 
 .nav-item.active:hover {

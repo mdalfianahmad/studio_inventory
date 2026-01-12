@@ -59,11 +59,14 @@ export default function Layout() {
                     >
                         <div style={{
                             background: 'var(--color-brand)',
-                            color: 'white',
+                            color: 'var(--color-brand-contrast)', /* High contrast across themes */
                             padding: '12px',
                             borderRadius: '50%',
-                            marginTop: '-16px',
-                            boxShadow: 'var(--shadow-md)'
+                            marginTop: '-20px',
+                            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
                         }}>
                             <QrCode size={22} />
                         </div>
@@ -88,7 +91,8 @@ export default function Layout() {
                         </NavLink>
                     )}
                 </nav>
-            )}
-        </div>
+            )
+            }
+        </div >
     )
 }

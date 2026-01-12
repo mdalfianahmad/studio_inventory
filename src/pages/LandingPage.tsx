@@ -80,7 +80,7 @@ export default function LandingPage() {
                     right: '-100px',
                     width: '300px',
                     height: '300px',
-                    background: 'radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%)',
+                    background: 'radial-gradient(circle, var(--color-border) 0%, transparent 70%)',
                     borderRadius: '50%',
                     filter: 'blur(40px)'
                 }} />
@@ -90,7 +90,7 @@ export default function LandingPage() {
                     left: '-50px',
                     width: '200px',
                     height: '200px',
-                    background: 'radial-gradient(circle, rgba(16, 185, 129, 0.3) 0%, transparent 70%)',
+                    background: 'radial-gradient(circle, var(--color-border) 0%, transparent 70%)',
                     borderRadius: '50%',
                     filter: 'blur(40px)'
                 }} />

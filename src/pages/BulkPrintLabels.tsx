@@ -281,7 +281,7 @@ export default function BulkPrintLabels() {
                                     <div style={{
                                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                                         padding: '10px 14px', borderRadius: '12px',
-                                        background: isAllSelected ? 'var(--color-brand-light)' : (hasSelection ? 'rgba(79, 115, 237, 0.05)' : 'var(--color-bg-base)'),
+                                        background: isAllSelected ? 'var(--color-brand-light)' : (hasSelection ? 'var(--color-bg-surface-hover)' : 'var(--color-bg-base)'),
                                         border: '1px solid',
                                         borderColor: isAllSelected ? 'var(--color-brand)' : (hasSelection ? 'var(--color-brand-light)' : 'var(--color-border)'),
                                         transition: 'all 0.1s ease'
