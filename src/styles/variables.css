@@ -4,110 +4,63 @@
   --font-mono: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, monospace;
 
   /* Font Sizes */
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-md: 1.125rem;
-  --text-lg: 1.25rem;
-  --text-xl: 1.5rem;
-  --text-2xl: 1.75rem;
-  --text-3xl: 2rem;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
 
   /* Spacing */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
 
   /* Radii */
-  --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
-  --radius-xl: 24px;
   --radius-full: 9999px;
 
-  /* Shadows - More defined for contrast */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 
-  /* Light Theme - Clean Zinc/Stone */
-  --color-bg-base: #f4f4f5;
-  /* Zinc 100 */
+  /* LIGHT-FIRST COLORS (Force light base even in dark preferences) */
+  --color-bg-base: #f8f9fa;
   --color-bg-surface: #ffffff;
-  --color-bg-surface-hover: #e4e4e7;
-  /* Zinc 200 */
-  --color-bg-elevated: #ffffff;
+  --color-bg-surface-hover: #f1f3f5;
 
-  --color-border: #d4d4d8;
-  /* Zinc 300 */
-  --color-border-subtle: #e4e4e7;
+  --color-border: #dee2e6;
+  --color-border-subtle: #f1f3f5;
 
-  --color-text-primary: #09090b;
-  /* Zinc 950 */
-  --color-text-base: #18181b;
-  /* Zinc 900 */
-  --color-text-secondary: #52525b;
-  /* Zinc 600 */
-  --color-text-tertiary: #a1a1aa;
-  /* Zinc 400 */
+  --color-text-primary: #1a1a1a;
+  --color-text-base: #2d3436;
+  --color-text-secondary: #636e72;
+  --color-text-tertiary: #b2bec3;
 
-  /* Brand - Deep Neutral */
-  --color-brand: #18181b;
-  --color-brand-hover: #09090b;
-  --color-brand-light: #f4f4f5;
+  /* HIGH CONTRAST BRAND - Bright Blue for clarity */
+  --color-brand: #2d3436;
+  /* Charcoal for buttons */
   --color-brand-contrast: #ffffff;
+  --color-brand-light: #f1f3f5;
 
-  /* Semantic - Accessible variants */
-  --color-success: #15803d;
-  --color-success-light: #f0fdf4;
-  --color-warning: #b45309;
-  --color-warning-light: #fffbeb;
-  --color-error: #b91c1c;
-  --color-error-light: #fef2f2;
-  --color-info: #1d4ed8;
-  --color-info-light: #eff6ff;
-
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-normal: 250ms ease;
-
-  /* Touch target size for mobile */
-  --touch-target: 44px;
+  /* Semantic */
+  --color-success: #27ae60;
+  --color-warning: #f39c12;
+  --color-error: #d63031;
 }
 
-/* Dark Mode - Premium Midnight Zinc */
+/* Subtle Dark Mode (Not pitch black, just slightly deeper grays) */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg-base: #09090b;
-    /* Zinc 950 */
-    --color-bg-surface: #18181b;
-    /* Zinc 900 */
-    --color-bg-surface-hover: #27272a;
-    /* Zinc 800 */
-    --color-bg-elevated: #18181b;
-
-    --color-border: #3f3f46;
-    /* Zinc 700 */
-    --color-border-subtle: #27272a;
-
-    --color-text-primary: #fafafa;
-    /* Zinc 50 */
-    --color-text-base: #f4f4f5;
-    /* Zinc 100 */
-    --color-text-secondary: #d4d4d8;
-    /* Zinc 300 */
-    --color-text-tertiary: #71717a;
-    /* Zinc 500 */
-
-    --color-brand: #ffffff;
-    --color-brand-hover: #f4f4f5;
-    --color-brand-light: #27272a;
-    --color-brand-contrast: #09090b;
+    --color-bg-base: #f1f3f5;
+    /* Still light, just a touch deeper */
+    --color-bg-surface: #ffffff;
+    --color-text-primary: #000000;
+    --color-brand: #000000;
   }
 }

@@ -529,6 +529,9 @@ export default function EquipmentDetail() {
                     </button>
                 </div>
             )}
+
+            {/* SPACER: Prevents the bottom nav from blocking the last button */}
+            <div style={{ height: '140px' }} aria-hidden="true" />
         </div>
     )
 }

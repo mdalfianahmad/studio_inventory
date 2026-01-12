@@ -65,7 +65,8 @@ export default function LandingPage() {
             minHeight: '100vh',
             background: 'var(--color-bg-base)',
             color: 'var(--color-text-base)',
-            overflow: 'hidden'
+            overflowX: 'hidden',
+            paddingBottom: '100px'
         }}>
             {/* Hero Section */}
             <header style={{
@@ -73,26 +74,15 @@ export default function LandingPage() {
                 textAlign: 'center',
                 position: 'relative'
             }}>
-                {/* Decorative elements */}
+                {/* Simple subtle background accent */}
                 <div style={{
                     position: 'absolute',
-                    top: '-100px',
-                    right: '-100px',
-                    width: '300px',
-                    height: '300px',
-                    background: 'radial-gradient(circle, var(--color-border) 0%, transparent 70%)',
-                    borderRadius: '50%',
-                    filter: 'blur(40px)'
-                }} />
-                <div style={{
-                    position: 'absolute',
-                    bottom: '-50px',
-                    left: '-50px',
-                    width: '200px',
-                    height: '200px',
-                    background: 'radial-gradient(circle, var(--color-border) 0%, transparent 70%)',
-                    borderRadius: '50%',
-                    filter: 'blur(40px)'
+                    top: '0',
+                    left: '0',
+                    right: '0',
+                    height: '400px',
+                    background: 'linear-gradient(180deg, rgba(0,0,0,0.03) 0%, transparent 100%)',
+                    zIndex: 0
                 }} />
 
                 <div style={{ position: 'relative', zIndex: 1 }}>
