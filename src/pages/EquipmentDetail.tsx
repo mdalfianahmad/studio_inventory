@@ -204,7 +204,7 @@ export default function EquipmentDetail() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: 'var(--space-8)'
+                marginBottom: 'var(--space-6)'
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
                     <button
@@ -238,7 +238,7 @@ export default function EquipmentDetail() {
             </header>
 
             {/* Equipment Photo & Info */}
-            <div className="card" style={{ marginBottom: 'var(--space-8)' }}>
+            <div className="card" style={{ marginBottom: 'var(--space-6)' }}>
                 {item.photo_url ? (
                     <img
                         src={item.photo_url}
@@ -290,8 +290,8 @@ export default function EquipmentDetail() {
                     display: 'grid',
                     gridTemplateColumns: '1fr 1fr',
                     gap: 'var(--space-4)',
-                    marginTop: 'var(--space-5)',
-                    padding: 'var(--space-4)',
+                    marginTop: 'var(--space-4)',
+                    padding: 'var(--space-3) var(--space-4)',
                     background: 'var(--color-bg-base)',
                     borderRadius: 'var(--radius-md)'
                 }}>
@@ -308,14 +308,21 @@ export default function EquipmentDetail() {
 
             {/* OWNER ONLY: Available Units with QR/Barcode */}
             {isOwner && (
-                <section style={{ marginBottom: 'var(--space-8)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-5)' }}>
+                <section style={{ marginBottom: 'var(--space-6)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-4)' }}>
                         <div className="section-header" style={{ marginBottom: 0 }}>
                             <CheckCircle2 size={14} />
                             AVAILABLE ({availableUnits.length})
                         </div>
 
-                        <div style={{ display: 'flex', background: 'var(--color-bg-base)', padding: '3px', borderRadius: 'var(--radius-full)', border: '1px solid var(--color-border)' }}>
+                        <div style={{
+                            display: 'flex',
+                            gap: '4px', /* Added gap between QR and BAR */
+                            background: 'var(--color-bg-base)',
+                            padding: '3px',
+                            borderRadius: 'var(--radius-full)',
+                            border: '1px solid var(--color-border)'
+                        }}>
                             <button
                                 onClick={() => setViewMode('qr')}
                                 style={{
