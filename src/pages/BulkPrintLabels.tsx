@@ -209,7 +209,7 @@ export default function BulkPrintLabels() {
                         <button className="btn btn-secondary" onClick={() => navigate('/equipment')} style={{ padding: '8px', borderRadius: '10px' }}>
                             <ArrowLeft size={20} />
                         </button>
-                        <h1 style={{ fontSize: 'var(--text-xl)', fontWeight: 700 }}>Label Workspace</h1>
+                        <h1 style={{ fontSize: 'var(--text-xl)', fontWeight: 700 }}>Bulk Label Export</h1>
                     </div>
                     <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
                         <div style={{ display: 'flex', background: 'var(--color-bg-surface-hover)', padding: '3px', borderRadius: '12px', marginRight: '6px' }}>
@@ -228,7 +228,7 @@ export default function BulkPrintLabels() {
                         </div>
                         <button className="btn btn-secondary" onClick={handleBulkSave} disabled={isSaving || selectedUnitIds.length === 0} style={{ padding: '10px 16px' }}>
                             {saveComplete ? <Check size={18} /> : <Download size={18} />}
-                            <span style={{ marginLeft: '6px' }}>{isSaving ? `${saveProgress}%` : saveComplete ? 'Saved!' : 'Save ZIP'}</span>
+                            <span style={{ marginLeft: '6px' }}>{isSaving ? `Exporting ${saveProgress}%` : saveComplete ? 'Exported!' : 'Export Images'}</span>
                         </button>
                         <button className="btn" onClick={() => window.print()} disabled={selectedUnitIds.length === 0} style={{ padding: '10px 16px' }}>
                             <Printer size={18} />
@@ -247,8 +247,8 @@ export default function BulkPrintLabels() {
                 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-4)' }}>
                         <div>
-                            <span style={{ fontSize: 'var(--text-xs)', fontWeight: 800, color: 'var(--color-brand)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Label Workspace</span>
-                            <div style={{ fontSize: '11px', color: 'var(--color-text-tertiary)' }}>{selectedUnitIds.length} labels selected for export</div>
+                            <span style={{ fontSize: 'var(--text-xs)', fontWeight: 800, color: 'var(--color-brand)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Select Labels for Export</span>
+                            <div style={{ fontSize: '11px', color: 'var(--color-text-tertiary)' }}>{selectedUnitIds.length} label{selectedUnitIds.length !== 1 ? 's' : ''} selected</div>
                         </div>
                         <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center' }}>
                             <div style={{ position: 'relative' }}>

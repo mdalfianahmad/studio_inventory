@@ -90,6 +90,7 @@ export default function EquipmentList() {
                             style={{ padding: 'var(--space-2) var(--space-3)' }}
                         >
                             <Printer size={18} />
+                            <span style={{ marginLeft: '4px' }}>Labels</span>
                         </Link>
                         <Link
                             to="/equipment/add"
@@ -97,6 +98,7 @@ export default function EquipmentList() {
                             style={{ padding: 'var(--space-2) var(--space-3)' }}
                         >
                             <Plus size={18} />
+                            <span style={{ marginLeft: '4px' }}>Add</span>
                         </Link>
                     </div>
                 )}

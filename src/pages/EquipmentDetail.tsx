@@ -409,22 +409,40 @@ export default function EquipmentDetail() {
                                     {/* QR/Barcode */}
                                     <div style={{
                                         background: 'white',
-                                        padding: '6px',
+                                        padding: '8px',
                                         borderRadius: 'var(--radius-sm)',
-                                        border: '1px solid #eee'
+                                        border: '1px solid #000',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        gap: '4px'
                                     }}>
                                         <img
                                             src={unitCodes[unit.id]}
                                             alt="Code"
-                                            style={{ height: viewMode === 'barcode' ? '32px' : '48px', display: 'block' }}
+                                            style={{
+                                                height: viewMode === 'barcode' ? '40px' : '60px',
+                                                width: viewMode === 'barcode' ? 'auto' : '60px',
+                                                display: 'block'
+                                            }}
                                         />
+                                        <div style={{
+                                            fontSize: '9px',
+                                            fontFamily: 'var(--font-mono)',
+                                            fontWeight: 900,
+                                            color: '#000',
+                                            letterSpacing: '0.02em',
+                                            textAlign: 'center'
+                                        }}>
+                                            {unit.code}
+                                        </div>
                                     </div>
 
                                     <button
                                         onClick={() => downloadLabel(unit.id, unit.code)}
                                         className="btn btn-secondary"
                                         style={{ padding: 'var(--space-2)' }}
-                                        title="Download"
+                                        title="Download Label"
                                     >
                                         <Download size={16} />
                                     </button>
