@@ -105,8 +105,8 @@ export default function Dashboard() {
             // 5. Activity and Approvals if has any studio
             const allStudioIds = [
                 ...(owned || []).map(s => s.id),
-                ...(memberOf || []).map(m => m.studios.id)
-            ]
+                ...(memberOf as any[] || []).map(m => (Array.isArray(m.studios) ? m.studios[0]?.id : m.studios?.id))
+            ].filter(Boolean) as string[]
 
             if (allStudioIds.length > 0) {
                 // Recent activity for all my studios
@@ -127,10 +127,10 @@ export default function Dashboard() {
                     const { data: pending } = await supabase
                         .from('transactions')
                         .select(`
-                            id, type, created_at, approval_status,
-                            equipment (name),
-                            profiles:user_id (email)
-                        `)
+                        id, type, created_at, approval_status,
+                        equipment (name),
+                        profiles:user_id (email)
+                    `)
                         .in('studio_id', owned.map(s => s.id))
                         .eq('approval_status', 'pending')
                         .order('created_at', { ascending: false })
@@ -292,9 +292,11 @@ export default function Dashboard() {
                             <div key={appr.id} className="card" style={{ borderLeft: '3px solid var(--color-warning)' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-3)' }}>
                                     <div>
-                                        <div style={{ fontWeight: 600 }}>{appr.equipment.name}</div>
+                                        <div style={{ fontWeight: 600 }}>
+                                            {Array.isArray(appr.equipment) ? (appr.equipment[0] as any)?.name : appr.equipment?.name}
+                                        </div>
                                         <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)' }}>
-                                            {appr.profiles?.email} • {new Date(appr.created_at).toLocaleTimeString()}
+                                            {(Array.isArray(appr.profiles) ? (appr.profiles[0] as any)?.email : appr.profiles?.email)} • {new Date(appr.created_at).toLocaleTimeString()}
                                         </div>
                                     </div>
                                     <div style={{
@@ -420,7 +422,9 @@ export default function Dashboard() {
                                         borderRadius: 'var(--radius-sm)'
                                     }}>
                                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                            <span style={{ fontWeight: 600, fontSize: 'var(--text-sm)' }}>{t.equipment.name}</span>
+                                            <span style={{ fontWeight: 600, fontSize: 'var(--text-sm)' }}>
+                                                {Array.isArray(t.equipment) ? (t.equipment[0] as any)?.name : t.equipment?.name}
+                                            </span>
                                             <span style={{ fontSize: '10px', color: 'var(--color-text-tertiary)' }}>{new Date(t.created_at).toLocaleDateString()}</span>
                                         </div>
                                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
@@ -478,7 +482,7 @@ export default function Dashboard() {
                                             <Building2 size={22} />
                                         </div>
                                         <div style={{ flex: 1 }}>
-                                            <div style={{ fontWeight: 600 }}>{m.studios.name}</div>
+                                            <div style={{ fontWeight: 600 }}>{Array.isArray(m.studios) ? m.studios[0]?.name : m.studios?.name}</div>
                                             <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)', textTransform: 'capitalize' }}>{m.role}</div>
                                         </div>
                                         <ChevronRight size={18} color="var(--color-text-tertiary)" />
