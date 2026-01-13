@@ -69,6 +69,7 @@ export interface Database {
                     available_quantity: number
                     metadata: Json | null
                     photo_url: string | null
+                    notes: string | null
                     created_at: string
                     updated_at: string
                 }
@@ -82,6 +83,7 @@ export interface Database {
                     available_quantity?: number
                     metadata?: Json | null
                     photo_url?: string | null
+                    notes?: string | null
                     created_at?: string
                     updated_at?: string
                 }
@@ -95,6 +97,7 @@ export interface Database {
                     available_quantity?: number
                     metadata?: Json | null
                     photo_url?: string | null
+                    notes?: string | null
                     created_at?: string
                     updated_at?: string
                 }
@@ -142,6 +145,7 @@ export interface Database {
                     quantity: number
                     photo_url: string | null
                     notes: string | null
+                    approval_status: 'pending' | 'approved' | 'denied' | null
                     created_at: string
                 }
                 Insert: {
@@ -154,6 +158,7 @@ export interface Database {
                     quantity?: number
                     photo_url?: string | null
                     notes?: string | null
+                    approval_status?: 'pending' | 'approved' | 'denied' | null
                     created_at?: string
                 }
                 Update: {
@@ -166,6 +171,7 @@ export interface Database {
                     quantity?: number
                     photo_url?: string | null
                     notes?: string | null
+                    approval_status?: 'pending' | 'approved' | 'denied' | null
                     created_at?: string
                 }
             }

@@ -13,6 +13,7 @@ interface CartItem {
     equipmentName: string
     photoUrl: string | null
     photoFile: File | null
+    notes: string
 }
 
 type FlowStep = 'scan' | 'confirm-item' | 'photo' | 'cart' | 'success'
@@ -87,7 +88,8 @@ export default function CheckoutFlow() {
                 code: unit.code,
                 equipmentName: unit.equipment.name,
                 photoUrl: null,
-                photoFile: null
+                photoFile: null,
+                notes: ''
             })
             setStep('confirm-item')
 
@@ -163,7 +165,9 @@ export default function CheckoutFlow() {
                     user_id: user.id,
                     type: mode,
                     quantity: 1,
-                    photo_url: photoUrl
+                    photo_url: photoUrl,
+                    notes: item.notes || null,
+                    approval_status: mode === 'checkout' ? 'pending' : null
                 })
 
                 // 3. Update equipment_item status
@@ -394,24 +398,48 @@ export default function CheckoutFlow() {
                     </h3>
 
                     <div style={{ display: 'grid', gap: 'var(--space-3)', marginBottom: 'var(--space-6)' }}>
-                        {cart.map(item => (
-                            <div key={item.unitId} className="card" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', padding: 'var(--space-3)' }}>
-                                {item.photoUrl && (
-                                    <img
-                                        src={item.photoUrl}
-                                        alt="Condition"
-                                        style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '8px' }}
-                                    />
-                                )}
-                                <div style={{ flex: 1 }}>
-                                    <div style={{ fontWeight: 600 }}>{item.equipmentName}</div>
-                                    <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)', fontFamily: 'var(--font-mono)' }}>{item.code}</div>
+                        {cart.map((item, index) => (
+                            <div key={item.unitId} className="card" style={{ padding: 'var(--space-3)' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', marginBottom: 'var(--space-3)' }}>
+                                    {item.photoUrl && (
+                                        <img
+                                            src={item.photoUrl}
+                                            alt="Condition"
+                                            style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '8px' }}
+                                        />
+                                    )}
+                                    <div style={{ flex: 1 }}>
+                                        <div style={{ fontWeight: 600 }}>{item.equipmentName}</div>
+                                        <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)', fontFamily: 'var(--font-mono)' }}>{item.code}</div>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                        {item.photoFile && <Check size={16} color="#22c55e" />}
+                                        <button onClick={() => removeFromCart(item.unitId)} style={{ padding: '4px', color: '#ef4444' }}>
+                                            <X size={18} />
+                                        </button>
+                                    </div>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    {item.photoFile && <Check size={16} color="#22c55e" />}
-                                    <button onClick={() => removeFromCart(item.unitId)} style={{ padding: '4px', color: '#ef4444' }}>
-                                        <X size={18} />
-                                    </button>
+
+                                <div>
+                                    <label style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-text-tertiary)', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>
+                                        Remarks / Item Condition
+                                    </label>
+                                    <textarea
+                                        className="input"
+                                        placeholder="e.g. Scratches on lens, low battery, etc."
+                                        value={item.notes}
+                                        onChange={(e) => {
+                                            const newCart = [...cart];
+                                            newCart[index].notes = e.target.value;
+                                            setCart(newCart);
+                                        }}
+                                        style={{
+                                            fontSize: '13px',
+                                            minHeight: '60px',
+                                            padding: '8px',
+                                            background: 'white'
+                                        }}
+                                    />
                                 </div>
                             </div>
                         ))}

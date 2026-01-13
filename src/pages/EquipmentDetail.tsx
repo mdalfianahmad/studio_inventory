@@ -268,9 +268,23 @@ export default function EquipmentDetail() {
                 )}
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
                         <h2 style={{ fontSize: 'var(--text-xl)', marginBottom: '2px' }}>{item.name}</h2>
-                        <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-sm)' }}>{item.category}</p>
+                        <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-sm)', marginBottom: item.notes ? 'var(--space-3)' : 0 }}>{item.category}</p>
+                        {item.notes && (
+                            <p style={{
+                                fontSize: 'var(--text-xs)',
+                                color: 'var(--color-text-base)',
+                                background: 'white',
+                                padding: 'var(--space-2) var(--space-3)',
+                                borderRadius: 'var(--radius-sm)',
+                                borderLeft: '3px solid var(--color-border)',
+                                fontStyle: 'italic',
+                                lineHeight: '1.4'
+                            }}>
+                                "{item.notes}"
+                            </p>
+                        )}
                     </div>
                     {item.sku && (
                         <div style={{
@@ -279,7 +293,9 @@ export default function EquipmentDetail() {
                             padding: '4px 10px',
                             borderRadius: 'var(--radius-sm)',
                             fontFamily: 'var(--font-mono)',
-                            border: '1px solid var(--color-border)'
+                            border: '1px solid var(--color-border)',
+                            marginLeft: 'var(--space-3)',
+                            flexShrink: 0
                         }}>
                             {item.sku}
                         </div>

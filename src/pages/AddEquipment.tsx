@@ -17,7 +17,8 @@ export default function AddEquipment() {
         name: '',
         category: 'Camera',
         total_quantity: 1,
-        sku: ''
+        sku: '',
+        notes: ''
     })
 
     const getStudioId = async () => {
@@ -89,7 +90,8 @@ export default function AddEquipment() {
                     total_quantity: formData.total_quantity,
                     available_quantity: formData.total_quantity,
                     sku: formData.sku || null,
-                    photo_url: photoUrl
+                    photo_url: photoUrl,
+                    notes: formData.notes || null
                 })
                 .select()
                 .single()
@@ -278,6 +280,22 @@ export default function AddEquipment() {
                         <p style={{ fontSize: '11px', color: 'var(--color-text-tertiary)', marginTop: '4px' }}>
                             Unique tracking IDs will be auto-generated for each unit (e.g., CAM-001-A1B2)
                         </p>
+                    </div>
+
+                    <div>
+                        <label className="label">Remarks / Notes (Optional)</label>
+                        <textarea
+                            className="input"
+                            value={formData.notes}
+                            onChange={e => setFormData({ ...formData, notes: e.target.value })}
+                            placeholder="e.g. Sent for sensor cleaning in June, has a scratch on the side..."
+                            style={{
+                                minHeight: '100px',
+                                resize: 'vertical',
+                                padding: 'var(--space-2) var(--space-3)',
+                                lineHeight: '1.5'
+                            }}
+                        />
                     </div>
 
                     <button type="submit" className="btn" disabled={loading} style={{ marginTop: 'var(--space-2)', height: '52px' }}>
