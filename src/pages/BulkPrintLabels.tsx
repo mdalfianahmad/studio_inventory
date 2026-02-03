@@ -33,7 +33,15 @@ export default function BulkPrintLabels() {
     const [saveComplete, setSaveComplete] = useState(false)
     const [searchQuery, setSearchQuery] = useState('')
     const [expandedEquip, setExpandedEquip] = useState<string[]>([])
+    const [labelSize, setLabelSize] = useState<'small' | 'medium' | 'large'>('medium')
     const gridRef = useRef<HTMLDivElement>(null)
+
+    // Label size configurations (aspect ratio maintained)
+    const labelSizes = {
+        small: { width: 140, qrSize: 80, fontSize: 9, padding: 8 },
+        medium: { width: 180, qrSize: 110, fontSize: 12, padding: 12 },
+        large: { width: 240, qrSize: 150, fontSize: 14, padding: 16 }
+    }
 
     const activeStudioId = localStorage.getItem('active_studio_id')
 
@@ -212,6 +220,7 @@ export default function BulkPrintLabels() {
                         <h1 style={{ fontSize: 'var(--text-xl)', fontWeight: 700 }}>Bulk Label Export</h1>
                     </div>
                     <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
+                        {/* QR/Barcode Toggle */}
                         <div style={{ display: 'flex', background: 'var(--color-bg-surface-hover)', padding: '3px', borderRadius: '12px', marginRight: '6px' }}>
                             <button
                                 onClick={() => setViewMode('qr')}
@@ -225,6 +234,28 @@ export default function BulkPrintLabels() {
                             >
                                 Barcode
                             </button>
+                        </div>
+                        {/* Label Size Selector */}
+                        <div style={{ display: 'flex', background: 'var(--color-bg-surface-hover)', padding: '3px', borderRadius: '12px', marginRight: '6px' }}>
+                            {(['small', 'medium', 'large'] as const).map((size) => (
+                                <button
+                                    key={size}
+                                    onClick={() => setLabelSize(size)}
+                                    style={{
+                                        padding: '6px 12px',
+                                        fontSize: '11px',
+                                        fontWeight: 600,
+                                        borderRadius: '9px',
+                                        border: 'none',
+                                        background: labelSize === size ? 'white' : 'transparent',
+                                        color: labelSize === size ? 'var(--color-brand)' : 'var(--color-text-secondary)',
+                                        cursor: 'pointer',
+                                        boxShadow: labelSize === size ? '0 2px 4px rgba(0,0,0,0.05)' : 'none'
+                                    }}
+                                >
+                                    {size === 'small' ? 'S' : size === 'medium' ? 'M' : 'L'}
+                                </button>
+                            ))}
                         </div>
                         <button className="btn btn-secondary" onClick={handleBulkSave} disabled={isSaving || selectedUnitIds.length === 0} style={{ padding: '10px 16px' }}>
                             {saveComplete ? <Check size={18} /> : <Download size={18} />}
@@ -347,7 +378,7 @@ export default function BulkPrintLabels() {
 
             <div ref={gridRef} className="print-grid" style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
+                gridTemplateColumns: `repeat(auto-fill, minmax(${labelSizes[labelSize].width}px, 1fr))`,
                 gap: 'var(--space-4)',
                 background: 'white',
                 padding: 'var(--space-4)'
@@ -355,6 +386,7 @@ export default function BulkPrintLabels() {
                 {previewData.map(group => (
                     group.items.map((unit) => {
                         const originalIndex = allEquipment.find(e => e.id === group.id)?.items.findIndex(i => i.id === unit.id) ?? 0
+                        const sizeConfig = labelSizes[labelSize]
                         return (
                             <div
                                 key={unit.id}
@@ -363,42 +395,53 @@ export default function BulkPrintLabels() {
                                 data-code={unit.code}
                                 style={{
                                     border: '1px solid #eee',
-                                    padding: '12px',
+                                    padding: `${sizeConfig.padding}px`,
                                     textAlign: 'center',
                                     borderRadius: '4px',
                                     pageBreakInside: 'avoid',
-                                    background: 'white'
+                                    background: 'white',
+                                    minWidth: `${sizeConfig.width - 20}px`
                                 }}
                             >
-                                <div style={{ fontSize: '11px', fontWeight: 800, marginBottom: '2px', textTransform: 'uppercase', color: '#000' }}>
+                                <div style={{
+                                    fontSize: `${Math.max(9, sizeConfig.fontSize - 2)}px`,
+                                    fontWeight: 800,
+                                    marginBottom: '2px',
+                                    textTransform: 'uppercase',
+                                    color: '#000'
+                                }}>
                                     {group.name}
                                 </div>
-                                <div style={{ fontSize: '9px', color: '#666', marginBottom: '8px' }}>
+                                <div style={{
+                                    fontSize: `${Math.max(7, sizeConfig.fontSize - 4)}px`,
+                                    color: '#666',
+                                    marginBottom: `${sizeConfig.padding / 2}px`
+                                }}>
                                     UNIT #{originalIndex + 1}
                                 </div>
                                 <div style={{
                                     border: '1px solid #000',
-                                    padding: '12px',
+                                    padding: `${sizeConfig.padding}px`,
                                     background: 'white',
                                     display: 'inline-flex',
                                     flexDirection: 'column',
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     borderRadius: '4px',
-                                    minWidth: '120px'
+                                    minWidth: `${sizeConfig.qrSize + 20}px`
                                 }}>
                                     <img
                                         src={unitCodes[unit.id]}
                                         alt="Code"
                                         style={{
-                                            width: viewMode === 'qr' ? '110px' : '150px',
+                                            width: viewMode === 'qr' ? `${sizeConfig.qrSize}px` : `${sizeConfig.qrSize + 30}px`,
                                             height: 'auto',
                                             display: 'block',
-                                            marginBottom: '8px'
+                                            marginBottom: `${sizeConfig.padding / 2}px`
                                         }}
                                     />
                                     <div style={{
-                                        fontSize: '12px',
+                                        fontSize: `${sizeConfig.fontSize}px`,
                                         fontFamily: 'monospace',
                                         fontWeight: 900,
                                         color: '#000000',

@@ -48,6 +48,36 @@ export default function EquipmentList() {
                 .order('name')
 
             if (error) throw error
+
+            // Always fetch equipment_items photos and prefer them over equipment.photo_url
+            // Mobile app uploads go to equipment_items, so these are more reliable
+            if (data && data.length > 0) {
+                const { data: itemPhotos } = await supabase
+                    .from('equipment_items')
+                    .select('equipment_id, photo_url')
+                    .in('equipment_id', data.map(e => e.id))
+                    .not('photo_url', 'is', null)
+
+                if (itemPhotos && itemPhotos.length > 0) {
+                    // Create a map of equipment_id to first available unit photo
+                    const photoMap: Record<string, string> = {}
+                    itemPhotos.forEach(item => {
+                        if (!photoMap[item.equipment_id] && item.photo_url) {
+                            photoMap[item.equipment_id] = item.photo_url
+                        }
+                    })
+
+                    // Prefer unit photos over equipment.photo_url (unit photos from mobile are more reliable)
+                    const enrichedData = data.map(e => ({
+                        ...e,
+                        photo_url: photoMap[e.id] || e.photo_url || null
+                    }))
+
+                    setItems(enrichedData)
+                    return
+                }
+            }
+
             setItems(data || [])
         } catch (error) {
             console.error('Error loading equipment:', error)
@@ -144,10 +174,20 @@ export default function EquipmentList() {
                         >
                             <div className="equipment-thumb">
                                 {item.photo_url ? (
-                                    <img src={item.photo_url} alt={item.name} />
-                                ) : (
+                                    <img
+                                        src={item.photo_url}
+                                        alt={item.name}
+                                        onError={(e) => {
+                                            // Hide broken image and show placeholder
+                                            e.currentTarget.style.display = 'none'
+                                            const placeholder = e.currentTarget.nextElementSibling as HTMLElement
+                                            if (placeholder) placeholder.style.display = 'flex'
+                                        }}
+                                    />
+                                ) : null}
+                                <div style={{ display: item.photo_url ? 'none' : 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
                                     <Box size={22} />
-                                )}
+                                </div>
                             </div>
                             <div className="equipment-info">
                                 <div className="equipment-name">{item.name}</div>

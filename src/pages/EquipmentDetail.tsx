@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, Printer, Trash2, Edit2, User, CheckCircle2, Clock, Download, Image as ImageIcon, Camera } from 'lucide-react'
+import { ArrowLeft, Printer, Trash2, Edit2, User, CheckCircle2, Clock, Download, Image as ImageIcon, Camera, X } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import type { Database } from '../types/database.types'
@@ -20,6 +20,14 @@ interface EquipmentItem {
     last_checkout_at?: string
 }
 
+interface PhotoModalState {
+    isOpen: boolean
+    unitId: string | null
+    unitCode: string | null
+    photoUrl: string | null
+    unitIndex: number | null
+}
+
 export default function EquipmentDetail() {
     const { id } = useParams<{ id: string }>()
     const navigate = useNavigate()
@@ -32,6 +40,15 @@ export default function EquipmentDetail() {
     const [viewMode, setViewMode] = useState<'qr' | 'barcode'>('qr')
     const [isOwner, setIsOwner] = useState(false)
     const [uploadingUnitId, setUploadingUnitId] = useState<string | null>(null)
+    const [displayPhotoUrl, setDisplayPhotoUrl] = useState<string | null>(null)
+    const [photoLoadError, setPhotoLoadError] = useState(false)
+    const [photoModal, setPhotoModal] = useState<PhotoModalState>({
+        isOpen: false,
+        unitId: null,
+        unitCode: null,
+        photoUrl: null,
+        unitIndex: null
+    })
 
     useEffect(() => {
         if (id) fetchItemData(id)
@@ -42,6 +59,15 @@ export default function EquipmentDetail() {
             generateAllVisualCodes()
         }
     }, [viewMode, physicalUnits, isOwner])
+
+    // Compute the best display photo - prefer unit photos (from mobile) as they're more reliable
+    useEffect(() => {
+        const unitPhoto = physicalUnits.find(u => u.photo_url)?.photo_url
+        // Prefer unit photos over equipment.photo_url as mobile app uploads go to units
+        const bestPhoto = unitPhoto || item?.photo_url || null
+        setDisplayPhotoUrl(bestPhoto)
+        setPhotoLoadError(false) // Reset error state when photo changes
+    }, [physicalUnits, item?.photo_url])
 
     async function fetchItemData(itemId: string) {
         try {
@@ -162,6 +188,7 @@ export default function EquipmentDetail() {
 
             const photoUrl = urlData.publicUrl
 
+            // Update the equipment_item with the new photo
             const { error: updateError } = await supabase
                 .from('equipment_items')
                 .update({ photo_url: photoUrl })
@@ -169,16 +196,68 @@ export default function EquipmentDetail() {
 
             if (updateError) throw updateError
 
-            // Update local state
+            // Also update the parent equipment's photo_url if it doesn't have one
+            // This syncs photos taken from mobile app to be visible in web app equipment list
+            if (!item.photo_url) {
+                await supabase
+                    .from('equipment')
+                    .update({ photo_url: photoUrl })
+                    .eq('id', item.id)
+
+                setItem(prev => prev ? { ...prev, photo_url: photoUrl } : prev)
+            }
+
+            // Update local state for the unit
             setPhysicalUnits(prev => prev.map(u =>
                 u.id === unitId ? { ...u, photo_url: photoUrl } : u
             ))
+
+            // Update photo modal if it's open
+            if (photoModal.isOpen && photoModal.unitId === unitId) {
+                setPhotoModal(prev => ({ ...prev, photoUrl }))
+            }
         } catch (error: any) {
             console.error('Error uploading photo:', error)
             alert(`Failed to upload photo: ${error.message}`)
         } finally {
             setUploadingUnitId(null)
         }
+    }
+
+    const openPhotoModal = (unit: EquipmentItem, index: number) => {
+        setPhotoModal({
+            isOpen: true,
+            unitId: unit.id,
+            unitCode: unit.code,
+            photoUrl: unit.photo_url,
+            unitIndex: index
+        })
+    }
+
+    const closePhotoModal = () => {
+        setPhotoModal({
+            isOpen: false,
+            unitId: null,
+            unitCode: null,
+            photoUrl: null,
+            unitIndex: null
+        })
+    }
+
+    const handlePhotoModalUpload = () => {
+        if (!photoModal.unitId) return
+
+        const input = document.createElement('input')
+        input.type = 'file'
+        input.accept = 'image/*'
+        input.capture = 'environment'
+        input.onchange = (e) => {
+            const file = (e.target as HTMLInputElement).files?.[0]
+            if (file && photoModal.unitId) {
+                handleUnitPhotoUpload(photoModal.unitId, file)
+            }
+        }
+        input.click()
     }
 
     if (loading) return (
@@ -239,10 +318,12 @@ export default function EquipmentDetail() {
 
             {/* Equipment Photo & Info */}
             <div className="card" style={{ marginBottom: 'var(--space-6)' }}>
-                {item.photo_url ? (
+                {/* Display equipment photo or first unit photo as fallback */}
+                {displayPhotoUrl && !photoLoadError ? (
                     <img
-                        src={item.photo_url}
+                        src={displayPhotoUrl}
                         alt={item.name}
+                        onError={() => setPhotoLoadError(true)}
                         style={{
                             width: '100%',
                             height: '180px',
@@ -384,12 +465,14 @@ export default function EquipmentDetail() {
                                             <img
                                                 src={unit.photo_url}
                                                 alt={`Unit ${index + 1}`}
+                                                onClick={() => openPhotoModal(unit, index)}
                                                 style={{
                                                     width: '56px',
                                                     height: '56px',
                                                     objectFit: 'cover',
                                                     borderRadius: 'var(--radius-md)',
-                                                    border: '1px solid var(--color-border)'
+                                                    border: '1px solid var(--color-border)',
+                                                    cursor: 'pointer'
                                                 }}
                                             />
                                         ) : (
@@ -557,6 +640,145 @@ export default function EquipmentDetail() {
 
             {/* SPACER: Prevents the bottom nav from blocking the last button */}
             <div style={{ height: '140px' }} aria-hidden="true" />
+
+            {/* Photo Modal */}
+            {photoModal.isOpen && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background: 'rgba(0, 0, 0, 0.9)',
+                        zIndex: 2000,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: 'var(--space-4)'
+                    }}
+                    onClick={closePhotoModal}
+                >
+                    {/* Close Button */}
+                    <button
+                        onClick={closePhotoModal}
+                        style={{
+                            position: 'absolute',
+                            top: 'calc(20px + env(safe-area-inset-top))',
+                            right: '20px',
+                            background: 'rgba(255, 255, 255, 0.1)',
+                            border: 'none',
+                            borderRadius: '50%',
+                            width: '44px',
+                            height: '44px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'white',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        <X size={24} />
+                    </button>
+
+                    {/* Unit Info */}
+                    <div style={{
+                        position: 'absolute',
+                        top: 'calc(20px + env(safe-area-inset-top))',
+                        left: '20px',
+                        color: 'white'
+                    }}>
+                        <div style={{ fontSize: 'var(--text-lg)', fontWeight: 700 }}>
+                            Unit #{(photoModal.unitIndex ?? 0) + 1}
+                        </div>
+                        <div style={{ fontSize: 'var(--text-sm)', opacity: 0.7, fontFamily: 'var(--font-mono)' }}>
+                            {photoModal.unitCode}
+                        </div>
+                    </div>
+
+                    {/* Photo Display */}
+                    <div
+                        style={{
+                            flex: 1,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: '100%',
+                            padding: 'var(--space-8) 0'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {photoModal.photoUrl ? (
+                            <img
+                                src={photoModal.photoUrl}
+                                alt={`Unit ${(photoModal.unitIndex ?? 0) + 1}`}
+                                style={{
+                                    maxWidth: '100%',
+                                    maxHeight: '60vh',
+                                    objectFit: 'contain',
+                                    borderRadius: 'var(--radius-lg)',
+                                    boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)'
+                                }}
+                            />
+                        ) : (
+                            <div style={{
+                                width: '200px',
+                                height: '200px',
+                                background: 'rgba(255, 255, 255, 0.1)',
+                                borderRadius: 'var(--radius-lg)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: 'rgba(255, 255, 255, 0.5)'
+                            }}>
+                                <ImageIcon size={48} />
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div
+                        style={{
+                            display: 'flex',
+                            gap: 'var(--space-3)',
+                            paddingBottom: 'calc(20px + env(safe-area-inset-bottom))'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            onClick={handlePhotoModalUpload}
+                            disabled={uploadingUnitId === photoModal.unitId}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 'var(--space-2)',
+                                padding: 'var(--space-3) var(--space-5)',
+                                background: 'var(--color-brand)',
+                                color: 'var(--color-brand-contrast)',
+                                border: 'none',
+                                borderRadius: 'var(--radius-full)',
+                                fontSize: 'var(--text-sm)',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                opacity: uploadingUnitId === photoModal.unitId ? 0.7 : 1
+                            }}
+                        >
+                            {uploadingUnitId === photoModal.unitId ? (
+                                <>
+                                    <div className="loading-spinner" style={{ width: '16px', height: '16px', borderWidth: '2px' }}></div>
+                                    Uploading...
+                                </>
+                            ) : (
+                                <>
+                                    <Camera size={18} />
+                                    {photoModal.photoUrl ? 'Take New Photo' : 'Add Photo'}
+                                </>
+                            )}
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
